@@ -1,18 +1,18 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import Screen from "../components/Screen";
 import colors from "../config/colors";
 
 function Stats(props) {
   return (
-    <View style={styles.container}>
+    <Screen style={styles.container}>
       <Text>Hello Stats !</Text>
-    </View>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.backColor,
     flex: 1,
     alignItems: "center",
     justifyContent: "center",

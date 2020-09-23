@@ -1,4 +1,2 @@
-const colors = {
-  backColor: "#3a3a3a",
-};
+const colors = { taskBackground: "#effcff" };
 export default colors;
