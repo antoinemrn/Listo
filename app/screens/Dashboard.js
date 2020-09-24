@@ -1,11 +1,13 @@
 import React from "react";
 import {
+  Button,
   FlatList,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import { color } from "react-native-reanimated";
 import Screen from "../components/Screen";
 import Task from "../components/Task";
 import colors from "../config/colors";
@@ -40,6 +42,10 @@ const tasks = [
 ];
 
 function Dashboard({ navigation }) {
+  const addTaskPress = () => {
+    navigation.navigate(routes.ADD_TASK);
+  };
+
   const onTaskPress = () => {
     navigation.navigate(routes.TASK_DETAILS);
   };
@@ -58,6 +64,7 @@ function Dashboard({ navigation }) {
         keyExtractor={(item) => item.id}
         style={styles.list}
       />
+      <Button onPress={addTaskPress} title="Add a task" color={colors.black} />
     </Screen>
   );
 }

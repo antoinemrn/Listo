@@ -13,7 +13,7 @@ function Task({ name, dueDate }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.taskBackground,
+    backgroundColor: colors.primary,
     margin: 5,
     height: 100,
   },
