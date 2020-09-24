@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import colors from "../config/colors";
 
-function Task({ name, imageName, dueDate }) {
+function Task({ name, dueDate }) {
   return (
     <View style={styles.container}>
       <Text>{name}</Text>
@@ -12,7 +12,11 @@ function Task({ name, imageName, dueDate }) {
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    backgroundColor: colors.taskBackground,
+    margin: 5,
+    height: 100,
+  },
 });
 
 export default Task;
