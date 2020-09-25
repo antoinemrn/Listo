@@ -24,6 +24,7 @@ function AppFormField({ name, ...otherProps }) {
 
 const styles = StyleSheet.create({
   input: {
+    width: "90%",
     borderBottomWidth: 2,
     borderColor: colors.lightGrey,
     color: colors.white,
