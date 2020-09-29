@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
-import apiStuff from "../api/stuff";
+import apiStuff from "../api/tasks";
 
 function Manager(props) {
   const [welcomeMessage, setWelcomeMessage] = useState();
   const getMessage = async () => {
-    const response = await apiStuff.getStuff();
+    const response = await apiStuff.getTasks();
     console.log(response);
     if (response.ok) {
       console.log(response.data);

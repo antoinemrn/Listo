@@ -1,6 +1,7 @@
 const styles = {
   title: {
     fontSize: 26,
+    textTransform: "capitalize",
   },
 };
 

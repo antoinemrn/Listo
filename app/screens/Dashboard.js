@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   FlatList,
@@ -11,61 +11,64 @@ import { color } from "react-native-reanimated";
 import Screen from "../components/Screen";
 import Task from "../components/Task";
 import colors from "../config/colors";
+import useApi from "../hooks/useApi";
 import routes from "../navigators/routes";
-
-const tasks = [
-  {
-    id: "1",
-    name: "call",
-    dueDate: "02/10/2020",
-  },
-  {
-    id: "2",
-    name: "run",
-    dueDate: "25/11/2020",
-  },
-  {
-    id: "3",
-    name: "code",
-    dueDate: "26/10/2020",
-  },
-  {
-    id: "4",
-    name: "work",
-    dueDate: "02/10/2020",
-  },
-  {
-    id: "5",
-    name: "eat",
-    dueDate: "02/10/2020",
-  },
-];
+import apiTask from "../api/tasks";
+import AppButton from "../components/AppButton";
+import TaskScreen from "../components/TaskScreen";
 
 function Dashboard({ navigation }) {
+  const [isRefreshing, setRefreshing] = useState(false);
+
+  const apiGetTasks = useApi(apiTask.getTasks);
+  const apiGetTask = useApi(apiTask.getTask);
+
   const addTaskPress = () => {
     navigation.navigate(routes.ADD_TASK);
   };
 
-  const onTaskPress = () => {
-    navigation.navigate(routes.TASK_DETAILS);
+  const onTaskPress = async (id) => {
+    const response = await apiGetTask.request(id);
+    if (response.ok) {
+      navigation.navigate(routes.TASK_DETAILS, {
+        name: response.data.name,
+        dueDate: response.data.dueDate,
+      });
+    }
+  };
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    apiGetTasks.request();
+    setRefreshing(false);
   };
 
   const renderTask = ({ item }) => (
-    <TouchableOpacity onPress={onTaskPress}>
+    <TouchableOpacity onPress={() => onTaskPress(item._id)}>
       <Task name={item.name} dueDate={item.dueDate} />
     </TouchableOpacity>
   );
 
+  useEffect(() => {
+    apiGetTasks.request();
+  }, []);
+
   return (
-    <Screen style={styles.container}>
+    <TaskScreen styleContainer={styles.container}>
       <FlatList
-        data={tasks}
+        data={apiGetTasks.data}
         renderItem={renderTask}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
+        onRefresh={onRefresh}
+        refreshing={isRefreshing}
         style={styles.list}
       />
-      <Button onPress={addTaskPress} title="Add a task" color={colors.black} />
-    </Screen>
+      <AppButton
+        onPress={addTaskPress}
+        title="Add a task"
+        color={colors.primary}
+      />
+    </TaskScreen>
   );
 }
 
