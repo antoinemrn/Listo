@@ -14,7 +14,7 @@ function AppFormField({ name, ...otherProps }) {
         onBlur={() => setFieldTouched(name)}
         onChangeText={handleChange(name)}
         style={styles.input}
-        placeholderTextColor={colors.lightGrey}
+        placeholderTextColor={colors.light}
         {...otherProps}
       />
       <ErrorMessage error={errors[name]} visible={touched[name]} />
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   input: {
     width: "90%",
     borderBottomWidth: 2,
-    borderColor: colors.lightGrey,
+    borderColor: colors.white,
     color: colors.white,
     padding: 10,
     margin: 10,

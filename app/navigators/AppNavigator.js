@@ -6,8 +6,13 @@ import Manager from "../screens/Manager";
 import Stats from "../screens/Stats";
 import DashboardNavigator from "./DashboardNavigator";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 import colors from "../config/colors";
 import { StyleSheet } from "react-native";
+import Constants from "expo-constants";
+import AddTask from "../screens/AddTask";
+import NewListingButton from "./NewListingButton";
+import ParametersScreen from "../screens/ParametersScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -16,7 +21,9 @@ const AppNavigator = () => {
     <Tab.Navigator
       tabBarOptions={{
         activeTintColor: colors.primary,
-        labelStyle: styles.label,
+        inactiveTintColor: colors.light,
+        showLabel: false,
+        style: styles.tabStyle,
       }}
     >
       <Tab.Screen
@@ -45,6 +52,17 @@ const AppNavigator = () => {
         }}
       />
       <Tab.Screen
+        name={routes.ADD_TASK}
+        component={AddTask}
+        options={({ navigation }) => ({
+          tabBarButton: () => (
+            <NewListingButton
+              onPress={() => navigation.navigate(routes.ADD_TASK)}
+            />
+          ),
+        })}
+      />
+      <Tab.Screen
         name={routes.STATS}
         component={Stats}
         options={{
@@ -58,14 +76,25 @@ const AppNavigator = () => {
           title: "Stats",
         }}
       />
+      <Tab.Screen
+        name={routes.PARAMETERS}
+        component={ParametersScreen}
+        options={{
+          tabBarIcon: ({ size, color }) => (
+            <Entypo name="cog" size={size} color={color} />
+          ),
+          title: "Stats",
+        }}
+      />
     </Tab.Navigator>
   );
 };
 
 const styles = StyleSheet.create({
-  label: {
-    marginBottom: 2,
-    textTransform: "uppercase",
+  tabStyle: {
+    backgroundColor: colors.black,
+    borderTopWidth: 5,
+    borderTopColor: colors.light,
   },
 });
 export default AppNavigator;

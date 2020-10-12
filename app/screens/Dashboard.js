@@ -1,31 +1,23 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { color } from "react-native-reanimated";
-import Screen from "../components/Screen";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import Task from "../components/Task";
 import colors from "../config/colors";
 import useApi from "../hooks/useApi";
 import routes from "../navigators/routes";
 import apiTask from "../api/tasks";
-import AppButton from "../components/AppButton";
-import TaskScreen from "../components/TaskScreen";
+import Swipeable from "react-native-gesture-handler/Swipeable";
+import IconButton from "../components/IconButton";
+import DashboardSelector from "../components/DashboardSelector";
+import Screen from "../components/Screen";
 
 function Dashboard({ navigation }) {
   const [isRefreshing, setRefreshing] = useState(false);
+  const [needToRefresh, setNeedToRefresh] = useState(false);
+  const [dateLimit, setDateLimit] = useState();
 
   const apiGetTasks = useApi(apiTask.getTasks);
   const apiGetTask = useApi(apiTask.getTask);
-
-  const addTaskPress = () => {
-    navigation.navigate(routes.ADD_TASK);
-  };
+  const apiDeleteTask = useApi(apiTask.deleteTask);
 
   const onTaskPress = async (id) => {
     const response = await apiGetTask.request(id);
@@ -43,10 +35,32 @@ function Dashboard({ navigation }) {
     setRefreshing(false);
   };
 
+  const deleteTask = (id) => {
+    apiDeleteTask.request(id);
+    onRefresh();
+    setNeedToRefresh(!needToRefresh);
+  };
+
+  const renderLeftActions = (itemId) => {
+    return (
+      <IconButton
+        iconName="delete"
+        color={colors.light}
+        onPress={() => deleteTask(itemId)}
+        size={75}
+      />
+    );
+  };
+
   const renderTask = ({ item }) => (
-    <TouchableOpacity onPress={() => onTaskPress(item._id)}>
-      <Task name={item.name} dueDate={item.dueDate} />
-    </TouchableOpacity>
+    <Swipeable renderLeftActions={() => renderLeftActions(item._id)}>
+      <Task
+        name={item.name}
+        dueDate={item.dueDate}
+        iconName="run"
+        onPress={() => onTaskPress(item._id)}
+      />
+    </Swipeable>
   );
 
   useEffect(() => {
@@ -54,7 +68,9 @@ function Dashboard({ navigation }) {
   }, []);
 
   return (
-    <TaskScreen styleContainer={styles.container}>
+    <Screen style={styles.container}>
+      <DashboardSelector updateDate={setDateLimit} />
+      <Text>{dateLimit}</Text>
       <FlatList
         data={apiGetTasks.data}
         renderItem={renderTask}
@@ -62,21 +78,17 @@ function Dashboard({ navigation }) {
         onRefresh={onRefresh}
         refreshing={isRefreshing}
         style={styles.list}
+        extraData={needToRefresh}
       />
-      <AppButton
-        onPress={addTaskPress}
-        title="Add a task"
-        color={colors.primary}
-      />
-    </TaskScreen>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: colors.back2,
   },
   list: {
     width: "100%",

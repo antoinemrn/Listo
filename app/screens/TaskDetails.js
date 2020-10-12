@@ -1,25 +1,17 @@
 import React from "react";
 import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 import colors from "../config/colors";
-import MaskedView from "@react-native-community/masked-view";
-import { LinearGradient } from "expo-linear-gradient";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 function TaskDetails({ route }) {
   const { name, dueDate } = route.params;
   return (
     <View style={styles.container}>
-      <MaskedView
-        maskElement={
-          <LinearGradient
-            // Background Linear Gradient
-            colors={["rgba(0,0,0,0.8)", "transparent"]}
-            style={styles.overlay}
-          />
-        }
-      >
-        <Image source={require("../assets/outdoor.jpg")} style={styles.image} />
-      </MaskedView>
-      <View style={styles.informations}>
+      <View style={styles.iconContainer}>
+        <MaterialCommunityIcons name="run" size={200} color={colors.primary} />
+      </View>
+      <View style={styles.informations} elevation={10}>
         <Text style={styles.text}>{name}</Text>
         <Text style={styles.text}>{dueDate}</Text>
       </View>
@@ -30,29 +22,25 @@ function TaskDetails({ route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.black,
+    backgroundColor: colors.white,
+  },
+  iconContainer: {
+    height: 400,
+    alignItems: "center",
+    justifyContent: "center",
+    borderBottomWidth: 5,
+    borderBottomColor: colors.primary,
   },
   informations: {
-    borderRadius: 20,
+    backgroundColor: colors.secondary,
     width: "90%",
+    height: "100%",
     alignSelf: "center",
-    marginTop: -100,
     padding: 20,
   },
-  image: {
-    marginTop: 0,
-    width: "100%",
-    height: 400,
-  },
-  overlay: {
-    position: "absolute",
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-  },
   text: {
-    color: colors.white,
+    color: colors.black,
+    fontWeight: "bold",
     fontSize: 22,
     margin: 10,
   },

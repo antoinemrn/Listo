@@ -12,11 +12,10 @@ import AppFormField from "../components/Forms/AppFormField";
 import * as yup from "yup";
 import colors from "../config/colors";
 import AppButton from "../components/AppButton";
-import appStyle from "../config/styles";
 import AppDateTimePicker from "../components/Forms/AppDateTimePicker";
-import TaskScreen from "../components/TaskScreen";
 import useApi from "../hooks/useApi";
 import taskApi from "../api/tasks";
+import Screen from "../components/Screen";
 
 const validationSchema = yup.object().shape({
   name: yup.string().required().max(255).label("Name"),
@@ -36,7 +35,7 @@ function AddTask(props) {
     Keyboard.dismiss();
   };
   return (
-    <TaskScreen styleContainer={styles.container}>
+    <Screen styleContainer={styles.container}>
       <Formik
         initialValues={{ name: "", dueDate: "" }}
         onSubmit={submitPress}
@@ -48,14 +47,15 @@ function AddTask(props) {
             <AppDateTimePicker name="dueDate" placeholder="Due Date" />
             <AppButton
               title="Add"
-              color={colors.validation}
+              color={colors.white}
+              textColor={colors.primary}
               onPress={handleSubmit}
               width={"50%"}
             />
           </>
         )}
       </Formik>
-    </TaskScreen>
+    </Screen>
   );
 }
 

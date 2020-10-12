@@ -1,13 +1,13 @@
 import React from "react";
-import { DefaultTheme } from "@react-navigation/native";
+import { DarkTheme, DefaultTheme } from "@react-navigation/native";
 import colors from "../config/colors";
 
 const mainTheme = {
-  ...DefaultTheme,
+  ...DarkTheme,
   colors: {
-    ...DefaultTheme.colors,
+    ...DarkTheme.colors,
     primary: colors.primary,
-    background: colors.black,
+    background: colors.back2,
   },
 };
 

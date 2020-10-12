@@ -4,4 +4,5 @@ export default Object.freeze({
   STATS: "stats",
   TASK_DETAILS: "taskDetails",
   ADD_TASK: "addTask",
+  PARAMETERS: "parameters",
 });

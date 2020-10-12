@@ -8,7 +8,7 @@ import mainTheme from "./app/navigators/mainTheme";
 
 export default function App() {
   return (
-    <NavigationContainer theme={DarkTheme}>
+    <NavigationContainer theme={mainTheme}>
       <AppNavigator />
     </NavigationContainer>
   );

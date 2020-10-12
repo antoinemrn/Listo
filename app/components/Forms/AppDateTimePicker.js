@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
-import { NativeModules, Platform } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useFormikContext } from "formik";
 import ErrorMessage from "./ErrorMessage";
 import colors from "../../config/colors";
-import Moment from "moment/min/moment-with-locales";
+import useDate from "../../hooks/useDate";
 
 function AppDateTimePicker({ name, ...otherProps }) {
   const [showPicker, setShowPicker] = useState(false);
@@ -18,23 +17,15 @@ function AppDateTimePicker({ name, ...otherProps }) {
     touched,
   } = useFormikContext();
 
-  const locale =
-    Platform.OS === "ios"
-      ? NativeModules.SettingsManager.settings.AppleLocale
-      : NativeModules.I18nManager.localeIdentifier;
+  const dateTools = useDate();
 
   const handleConfirm = (date) => {
-    setFieldValue(name, formatDate(date));
+    setFieldValue(name, dateTools.formatDate(date));
     hidePicker();
   };
 
   const hidePicker = () => {
     setShowPicker(false);
-  };
-
-  const formatDate = (date) => {
-    Moment.locale(locale);
-    return Moment(date).format("LL").toString();
   };
 
   return (
@@ -49,7 +40,7 @@ function AppDateTimePicker({ name, ...otherProps }) {
         }}
         onChange={handleChange}
         style={styles.input}
-        placeholderTextColor={colors.lightGrey}
+        placeholderTextColor={colors.light}
         value={values[name]}
         {...otherProps}
       />
@@ -70,7 +61,7 @@ const styles = StyleSheet.create({
   input: {
     width: "90%",
     borderBottomWidth: 2,
-    borderColor: colors.lightGrey,
+    borderColor: colors.white,
     color: colors.white,
     padding: 10,
     margin: 10,

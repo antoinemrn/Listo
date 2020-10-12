@@ -19,9 +19,14 @@ const postTask = async (data) => {
   const response = await api.post(endpoint, newData);
   return response;
 };
+const deleteTask = async (id) => {
+  const response = await api.delete(endpoint + "/" + id);
+  return response;
+};
 
 export default {
   getTasks,
   getTask,
   postTask,
+  deleteTask,
 };

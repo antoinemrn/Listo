@@ -15,23 +15,15 @@ const Stack = createStackNavigator();
 const DashboardNavigator = () => {
   return (
     <Stack.Navigator
+      tabBarOptions={{
+        labelStyle: styles.label,
+      }}
       screenOptions={{
-        headerTransparent: true,
-        headerTintColor: colors.lightGrey,
-        headerTitleStyle: [appStyle.title, styles.headerTitleStyle],
-        headerRight: () => <View />,
+        headerShown: false,
       }}
     >
-      <Stack.Screen
-        name={routes.DASHBOARD}
-        component={Dashboard}
-        options={{ title: "Dashboard", headerLeft: () => <View /> }}
-      />
-      <Stack.Screen
-        name={routes.TASK_DETAILS}
-        component={TaskDetails}
-        options={{ title: "" }}
-      />
+      <Stack.Screen name={routes.DASHBOARD} component={Dashboard} />
+      <Stack.Screen name={routes.TASK_DETAILS} component={TaskDetails} />
       <Stack.Screen
         name={routes.ADD_TASK}
         component={AddTask}
@@ -45,7 +37,8 @@ const styles = StyleSheet.create({
   headerTitleStyle: {
     alignSelf: "center",
     padding: 0,
-    color: colors.lightGrey,
+    color: colors.light,
+    textTransform: "uppercase",
   },
 });
 
